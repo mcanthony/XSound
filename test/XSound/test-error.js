@@ -1,6 +1,6 @@
-describe('Class (Static) Method TEST', function() {
+describe('XSound TEST', function() {
 
-    describe('XSound.error()', function() {
+    describe('XSound.error', function() {
 
         // Initial
         it('should return 2', function() {
@@ -8,6 +8,7 @@ describe('Class (Static) Method TEST', function() {
         });
 
         // Negative
+
         it('should return 2', function() {
             X.error('hogehode');
             expect(X.ERROR_MODE).toEqual(2);

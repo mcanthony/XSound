@@ -3,64 +3,30 @@
 
     global.AudioContext = global.AudioContext || global.webkitAudioContext;
 
-    var audiocontext = new AudioContext();
-
-    // Mocks
-
-    function OscillatorModule(context) {
-        this.sources = [new Oscillator(), new Oscillator(), new Oscillator()];
-    }
-
-    function Oscillator() {
-    }
-
-    OscillatorModule.Oscillator = Oscillator;
-
-    function OneshotModule(context) {
-    }
-
-    function AudioModule(context) {
-    }
-
-    function MediaModule(context) {
-    }
-
-    function MediaFallbackModule() {
-    }
-
-    function StreamModule(context) {
-    }
-
-    function MixerModule(context) {
-    }
-
-    function MML(context) {
-    }
-
     var sources = {
-        oscillator : new OscillatorModule(audiocontext),
-        oneshot    : new OneshotModule(audiocontext),
-        audio      : new AudioModule(audiocontext),
-        media      : new MediaModule(audiocontext),
-        fallback   : new MediaFallbackModule(),
-        stream     : new StreamModule(audiocontext),
-        mixer      : new MixerModule(audiocontext),
-        mml        : new MML(audiocontext)
+        oscillator : new Mocks.OscillatorModule(audiocontext),
+        oneshot    : new Mocks.OneshotModule(audiocontext),
+        audio      : new Mocks.AudioModule(audiocontext),
+        media      : new Mocks.MediaModule(audiocontext),
+        fallback   : new Mocks.MediaFallbackModule(),
+        stream     : new Mocks.StreamModule(audiocontext),
+        mixer      : new Mocks.MixerModule(audiocontext),
+        mml        : new Mocks.MML(audiocontext)
     };
 
     // Cloned instances
     var clones = {
-        oscillator : new OscillatorModule(audiocontext),
-        oneshot    : new OneshotModule(audiocontext),
-        audio      : new AudioModule(audiocontext),
-        media      : new MediaModule(audiocontext),
-        fallback   : new MediaFallbackModule(),
-        stream     : new StreamModule(audiocontext),
-        mixer      : new MixerModule(audiocontext),
-        mml        : new MML(audiocontext)
+        oscillator : new Mocks.OscillatorModule(audiocontext),
+        oneshot    : new Mocks.OneshotModule(audiocontext),
+        audio      : new Mocks.AudioModule(audiocontext),
+        media      : new Mocks.MediaModule(audiocontext),
+        fallback   : new Mocks.MediaFallbackModule(),
+        stream     : new Mocks.StreamModule(audiocontext),
+        mixer      : new Mocks.MixerModule(audiocontext),
+        mml        : new Mocks.MML(audiocontext)
     };
 
-    /** 
+    /**
      * This function is global object for getting the instance of OscillatorModule or OneshotModule or AudioModule or MediaModule or MediaFallbackModule or StreamModule or MixerModule or MML.
      * @param {string} source This argument is one of 'oscillator', 'oneshot', 'audio', 'media', 'fallback', 'stream', 'mixer' , 'mml'.
      * @param {number} index This argument is in order to select one of some oscillators.
@@ -107,7 +73,7 @@
 
     // These functions are class (static) methods for XSound
 
-    /** 
+    /**
      * This static method sets error mode for developers that use this library.
      * @param {string|type} mode This argument is one of 0, 1, 2, 'NONE, 'CONSOLE', 'EXCEPTION'.
      */
@@ -134,7 +100,7 @@
         }
     };
 
-    /** 
+    /**
      * This static method reads file of audio or text.
      * @param {Blob} file This argument is the instance of Blob. This is entity of file.
      * @param {string} type This argument is one of 'ArrayBuffer', 'DataURL', 'Text'.
@@ -212,7 +178,7 @@
         }
     };
 
-    /** 
+    /**
      * This static method gets the instance of File (extends Blob).
      * @param {Event} event This argument is the instance of Event by Drag & Drop or "<input type="file">".
      * @param {string} type This argument is one of 'ArrayBuffer', 'DataURL', 'Text'.
@@ -242,7 +208,7 @@
 
         if (event.type === 'drop') {
             // Drag & Drop
-            event.stopImmediatePropagation();
+            event.stopPropagation();
             event.preventDefault();
 
             file = /*('items' in event.dataTransfer) ? event.dataTransfer.items[0].getAsFile() : */event.dataTransfer.files[0];
@@ -273,7 +239,7 @@
         }
     };
 
-    /** 
+    /**
      * This static method gets audio data as ArrayBuffer by Ajax.
      * @param {string} url This argument is URL for audio resource.
      * @param {number} timeout This argument is timeout of Ajax. The default value is 60000 msec (1 minutes).
@@ -341,7 +307,7 @@
         xhr.send(null);
     };
 
-    /** 
+    /**
      * This static method creates the instance of AudioBuffer from ArrayBuffer.
      * @param {AudioContext} context This argument is the instance of AudioContext for "decodeAudioData" method.
      * @param {ArrayBuffer} arrayBuffer This argument is converted to the instance of AudioBuffer
@@ -369,7 +335,7 @@
         context.decodeAudioData(arrayBuffer, successCallback, errorCallback);
     };
 
-    /** 
+    /**
      * This static method calculates frequency from the index that corresponds to the 12 equal temperament.
      * @param {Array.<number>} indexes This argument is array of index that corresponds to the 12 equal temperament.
      *     For example, This value is between 0 and 88 in the case of piano.
@@ -400,7 +366,7 @@
         return frequencies;
     };
 
-    /** 
+    /**
      * This static method calculates minutes and seconds from the designated time in seconds.
      * @param {number} time This argument is the time in seconds.
      * @return {object} This is returned as associative array that has "minutes", "seconds" and "milliseconds" keys.
@@ -421,7 +387,44 @@
         }
     };
 
-    /** 
+    /**
+     * This static method shows the designated HTMLElement in full screen.
+     * @param {HTMLElement} element This argument is the instance of HTMLElement that is target of full screen.
+     */
+    XSound.fullscreen = function(element) {
+        if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        } else if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else {
+            throw new Error('Cannot change to full screen.');
+        }
+    };
+
+    /**
+     * This method shows HTMLElement in original size from full screen.
+     */
+    XSound.exitFullscreen = function() {
+        if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else {
+            throw new Error('Cannot exit from full screen.');
+        }
+    };
+
+    /**
      *  This static method removes one of the global objects or both of the global objects.
      * @param {boolean} deep This argument is in order to select whether removing both of global objects.
      *     If this value is true, both of global objects are removed.
@@ -440,7 +443,7 @@
         return XSound;
     };
 
-    /** 
+    /**
      * This static method returns function as closure for getter of cloned module.
      * @return {function} This is returned as closure for getter of cloned module.
      */
@@ -476,7 +479,7 @@
         };
     };
 
-    /** 
+    /**
      * This static method releases memory of unnecessary instances.
      * @param {Array.<SoundModule|MML|MediaFallbackModule>} sourceLists This argument is array that has the instances of SoundModule or MML or MediaFallbackModule.
      */
@@ -507,7 +510,7 @@
         }
     };
 
-    /** 
+    /**
      * This static method gets the instance of AudioContext.
      * @return {AudioContext} This value is the instance of AudioContext.
      */
@@ -515,7 +518,7 @@
         return audiocontext;
     };
 
-    /** 
+    /**
      * This static method gets "currentTime" property in the instance of AudioContext.
      * @return {number}
      */
@@ -531,16 +534,5 @@
     // Set 2 objects as property of window object
     global.XSound = XSound;
     global.X      = XSound;  // Alias of XSound
-
-    // Export mocks
-    global.Mocks                     = {};
-    global.Mocks.OscillatorModule    = OscillatorModule;
-    global.Mocks.OneshotModule       = OneshotModule;
-    global.Mocks.AudioModule         = AudioModule;
-    global.Mocks.MediaModule         = MediaModule;
-    global.Mocks.MediaFallbackModule = MediaFallbackModule;
-    global.Mocks.StreamModule        = StreamModule;
-    global.Mocks.MixerModule         = MixerModule;
-    global.Mocks.MML                 = MML;
 
 })(window);
