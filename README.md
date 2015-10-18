@@ -1,7 +1,9 @@
-XSound.js
+XSound
 =========
   
 HTML5 Web Audio API Library
+  
+[![Build Status](https://travis-ci.org/Korilakkuma/XSound.svg?branch=master)](https://travis-ci.org/Korilakkuma/XSound)
   
 ## Overview
   
@@ -14,7 +16,7 @@ In concrete, this library may be useful to implement the following features.
 * Play the Media (Fallback by HTML5 MediaElement)
 * Play the MML (Music Macro Language)
 * Streaming (by WebRTC)
-* Effectors (Compressor / Wah / Equalizer / Tremolo / Phaser / Chorus / Delay / Reverb, and Original Effector ... etc)
+* Effectors (Compressor / Wah / Equalizer / Tremolo / Phaser / Chorus / Delay / Reverb, and Original Effector ...etc)
 * Visualization (Overview in Time Domain / Time Domain / Spectrum)
 * Recording (Create WAVE file)
 * Session (by WebSocket)
@@ -32,14 +34,14 @@ The structure of description is the following.
     X(/* sound source */).module(/* effectors, analyser, recorder, session */).start();
     X(/* sound source */).module(/* effectors, analyser, recorder, session */).stop();
   
-etc...
+...etc
   
 ## Demo
   
 The application that uses this library is in the following URL.  
 Please use Chrome (Mac / Windows) or Safari (Mac) or Opera (Mac / Windows).  
 
-* [X Sound](http://korilakkuma.github.io/X-Sound/)
+* [X Sound](https://korilakkuma.github.io/X-Sound/)
 
 * [Music V](http://curtaincall.weblike.jp/portfolio-music-v/)
 
@@ -49,15 +51,15 @@ Now, I'm creating website for Web Audio API. Please use the following site for u
   
 ## Download & API Document
   
-* [XSound.js Download & API Document](http://korilakkuma.github.io/XSound/)
+* [XSound.js Download & API Document](https://korilakkuma.github.io/XSound/)
   
 ## Installation
   
-    $ npm install --save-dev xsound
+    $ npm install xsound
   
 or,
   
-    $ bower install --save-dev xsound
+    $ bower install xsound
   
 In the case of using WebSocket,
   
@@ -69,7 +71,7 @@ or,
   
 And, set NODE_PATH,
   
-    $ echo "export NODE_PATH='/usr/local/lib/node_modules/'" >> ~/.bashrc
+    $ echo "export NODE_PATH='/usr/local/lib/node_modules/'" >> ~/.bash_profile
   
 ## Usage
   
@@ -105,9 +107,9 @@ If "X" is used already in the application, "X" can be removed by "noConflict" me
     // Remove "X"
     XSound.noConflict();
 
-    XSound(/* .... */);
+    XSound(/* ... */);
 
-    // ....
+    // ...
   
 In the case of removing both of global objects,
   
@@ -671,16 +673,15 @@ Get node object of HTMLMediaElement and select media format and register callbac
         mediaPlayer = X('media');  // Not use Web Audio API (Fallback by HTMLMediaElement)
     }
 
-    // ....
+    // ...
 
-    // The properties this object has are properties of "loadstart", "loadedmetadata", "loadeddata", "canplay", "canplaythrough", "timeupdate", "ended" ...etc 
+    // The properties this object has are properties of "loadstart", "loadedmetadata", "loadeddata", "canplay", "canplaythrough", "timeupdate", "ended" ...etc
     var callbacks = {};
 
     // Element ID, Media type ('audio' or 'video'), Media format array, callback
     try {
         X('media').setup({
-            id        : 'audio-element',        // If this value is empty string, this method creates HTMLMediaElement
-            type      : 'audio',                // either 'audio' or 'video'
+            media     : document.querySelector('audio'),
             formats   : ['wav', 'ogg', 'mp3'],
             callbacks : callbacks
         });
@@ -1516,7 +1517,7 @@ If customized effector module is used, the module should be defined the followin
         // It is necessary to connection from "input" and to "output"
         // (The properties of "input" and "output" are inherited from Effector class)
 
-        /* this.input.connect( .... connect(this.output); */
+        /* this.input.connect( ... connect(this.output); */
     };
 
      /** @extends {Effector} */
@@ -1533,7 +1534,7 @@ If customized effector module is used, the module should be defined the followin
      * @override
      */
     MyEffector.prototype.start = function(startTime) {
-        // ....
+        // ...
     };
 
     /** 
@@ -1543,7 +1544,7 @@ If customized effector module is used, the module should be defined the followin
      * @override
      */
     MyEffector.prototype.stop = function(stopTime, releaseTime) {
-        // ....
+        // ...
     };
 
     X(source).start(/* the 1st argument */, [/* Other modules ,*/ X(source).module('myeffector') /*, Other modules */]);
@@ -1811,78 +1812,78 @@ As JSON,
   
 HTML
   
-    ....
+    ...
 
     <dl>
         <dt>TIME DOMAIN [ LEFT ]</dt>
-        <dd><canvas id="canvas-time-all-L" width="360" height="120"></canvas></dd>
-        <dd id="svg-parent-L"><svg id="svg-time-all-L" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
+        <dd><canvas id="canvas-time-overview-L" width="360" height="120"></canvas></dd>
+        <dd><svg id="svg-time-overview-L" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
     </dl>
     <dl>
         <dt>TIME DOMAIN [ RIGHT ]</dt>
-        <dd><canvas id="canvas-time-all-R" width="360" height="120"></canvas></dd>
-        <dd id="svg-parent-R"><svg id="svg-time-all-R" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
+        <dd><canvas id="canvas-time-overview-R" width="360" height="120"></canvas></dd>
+        <dd><svg id="svg-time-overview-R" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
     </dl>
     <dl>
         <dt>TIME DOMAIN</dt>
         <dd><canvas id="canvas-time" width="360" height="120"></canvas></dd>
-        <dd id="svg-parent-time"><svg id="svg-time" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
+        <dd><svg id="svg-time" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
     </dl>
     <dl>
         <dt>FREQUENCY DOMAIN</dt>
         <dd><canvas id="canvas-spectrum" width="360" height="120"></canvas></dd>
-        <dd id="svg-parent-spectrum"><svg id="svg-spectrum" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
+        <dd><svg id="svg-spectrum" width="360" height="120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg></dd>
     </dl>
 
-    ....
+    ...
   
 In the case of using HTML5 Canvas,
   
     // for drawing created sound
-    X('oscillator').module('analyser').domain('time').setup('canvas', 'canvas-time');     // Time domain
-    X('oscillator').module('analyser').domain('fft').setup('canvas', 'canvas-spectrum');  // Frequency domain
+    X('oscillator').module('analyser').domain('time').setup(document.getElementById('canvas-time'));     // Time domain
+    X('oscillator').module('analyser').domain('fft').setup(document.getElementById('canvas-spectrum'));  // Frequency domain
 
     // for drawing one-shot audio
-    X('oneshot').module('analyser').domain('time').setup('canvas', 'canvas-time');     // Time domain
-    X('oneshot').module('analyser').domain('fft').setup('canvas', 'canvas-spectrum');  // Frequency domain
+    X('oneshot').module('analyser').domain('time').setup(document.getElementById('canvas-time'));     // Time domain
+    X('oneshot').module('analyser').domain('fft').setup(document.getElementById('canvas-spectrum'));  // Frequency domain
 
     // for drawing audio
-    X('audio').module('analyser').domain('timeAllL').setup('canvas', 'canvas-time-all-L');  // Overview in time domain (L channel)
-    X('audio').module('analyser').domain('timeAllR').setup('canvas', 'canvas-time-all-R');  // Overview in time domain (R channel)
-    X('audio').module('analyser').domain('time').setup('canvas', 'canvas-time');            // Time domain
-    X('audio').module('analyser').domain('fft').setup('canvas', 'canvas-spectrum');         // Frequency domain
+    X('audio').module('analyser').domain('time-overview-L').setup(document.getElementById('canvas-time-overview-L'));  // Overview in time domain (L channel)
+    X('audio').module('analyser').domain('time-overview-R').setup(document.getElementById('canvas-time-overview-R'));  // Overview in time domain (R channel)
+    X('audio').module('analyser').domain('time').setup(document.getElementById('canvas-time'));                        // Time domain
+    X('audio').module('analyser').domain('fft').setup(document.getElementById('canvas-spectrum'));                     // Frequency domain
 
     // for drawing media
-    X('media').module('analyser').domain('time').setup('canvas', 'canvas-time');     // Time domain
-    X('media').module('analyser').domain('fft').setup('canvas', 'canvas-spectrum');  // Frequency domain
+    X('media').module('analyser').domain('time').setup(document.getElementById('canvas-time'));     // Time domain
+    X('media').module('analyser').domain('fft').setup(document.getElementById('canvas-spectrum'));  // Frequency domain
 
     // for drawing stream
-    X('stream').module('analyser').domain('time').setup('canvas', 'canvas-time');     // Time domain
-    X('stream').module('analyser').domain('fft').setup('canvas', 'canvas-spectrum');  // Frequency domain
+    X('stream').module('analyser').domain('time').setup(document.getElementById('canvas-time'));     // Time domain
+    X('stream').module('analyser').domain('fft').setup(document.getElementById('canvas-spectrum'));  // Frequency domain
   
 In the case of using HTML5 SVG,
   
     // for drawing created sound
-    X('oscillator').module('analyser').domain('time').setup('svg', 'svg-time', 'svg-parent-time');         // Time domain
-    X('oscillator').module('analyser').domain('fft').setup('svg', 'svg-spectrum', 'svg-parent-spectrum');  // Frequency domain
+    X('oscillator').module('analyser').domain('time').setup(document.getElementById('svg-time'));     // Time domain
+    X('oscillator').module('analyser').domain('fft').setup(document.getElementById('svg-spectrum'));  // Frequency domain
 
     // for drawing one-shot audio
-    X('oneshot').module('analyser').domain('time').setup('svg', 'svg-time', 'svg-parent-time');         // Time domain
-    X('oneshot').module('analyser').domain('fft').setup('svg', 'svg-spectrum', 'svg-parent-spectrum');  // Frequency domain
+    X('oneshot').module('analyser').domain('time').setup(document.getElementById('svg-time'));     // Time domain
+    X('oneshot').module('analyser').domain('fft').setup(document.getElementById('svg-spectrum'));  // Frequency domain
 
     // for drawing audio
-    X('audio').module('analyser').domain('timeAllL').setup('svg', 'svg-time-all-L', 'svg-parent-L');  // Overview in time domain (L channel)
-    X('audio').module('analyser').domain('timeAllR').setup('svg', 'svg-time-all-R', 'svg-parent-R');  // Overview in time domain (R channel)
-    X('audio').module('analyser').domain('time').setup('svg', 'svg-time', 'svg-parent-time');         // Time domain
-    X('audio').module('analyser').domain('fft').setup('svg', 'svg-spectrum', 'svg-parent-spectrum');  // Frequency domain
+    X('audio').module('analyser').domain('time-overview-L').setup(document.getElementById('svg-time-overview-L'));  // Overview in time domain (L channel)
+    X('audio').module('analyser').domain('time-overview-R').setup(document.getElementById('svg-time-overview-R'));  // Overview in time domain (R channel)
+    X('audio').module('analyser').domain('time').setup(document.getElementById('svg-time'));                        // Time domain
+    X('audio').module('analyser').domain('fft').setup(document.getElementById('svg-spectrum'));                     // Frequency domain
 
     // for drawing media
-    X('media').module('analyser').domain('time').setup('svg', 'svg-time', 'svg-parent-time');         // Time domain
-    X('media').module('analyser').domain('fft').setup('svg', 'svg-spectrum', 'svg-parent-spectrum');  // Frequency domain
+    X('media').module('analyser').domain('time').setup(document.getElementById('svg-time'));     // Time domain
+    X('media').module('analyser').domain('fft').setup(document.getElementById('svg-spectrum'));  // Frequency domain
 
     // for drawing stream
-    X('media').module('analyser').domain('time').setup('svg', 'svg-time', 'svg-parent-time');         // Time domain
-    X('media').module('analyser').domain('fft').setup('svg', 'svg-spectrum', 'svg-parent-spectrum');  // Frequency domain
+    X('media').module('analyser').domain('time').setup(document.getElementById('svg-time'));     // Time domain
+    X('media').module('analyser').domain('fft').setup(document.getElementById('svg-spectrum'));  // Frequency domain
   
 ### Access Parameters
   
@@ -1890,9 +1891,9 @@ The following, the variable ("source") is one of 'oscillator', 'oneshot', 'audio
   
     var source = /* 'oscillator' or 'oneshot' or 'audio' or 'media' or 'stream' or 'mixer' */;
   
-And, the variable ("domain") is one of 'timeAllL', 'timeAllR', 'time', 'fft'.
+And, the variable ("domain") is one of 'time-overview-L', 'time-overview-R', 'time', 'fft'.
   
-    var domain = /* 'timeAllL' or 'timeAllR' or 'time' or 'fft' */;
+    var domain = /* 'time-overview-L' or 'time-overview-R' or 'time' or 'fft' */;
   
 #### Manage State
   
@@ -1941,7 +1942,12 @@ And, the variable ("domain") is one of 'timeAllL', 'timeAllR', 'time', 'fft'.
         grid         : 'rgba(255, 0, 0, 1.0)',      // Grid color (color sting or 'none')
         currentTime  : 'rgba(255, 255, 255, 1.0)',  // Shape color (for current time)
         text         : 'rgba(255, 255, 255, 1.0)',  // Text color (color string or 'none')
-        font         : '13px Arial',                // Text font
+        font         : {
+            family : 'Arial',                       // Text font-family
+            size   : '13px',                        // Text font-size
+            style  : 'normal',                      // Text font-style
+            weight : 'normal'                       // Text font-weight
+        },
         top          : 15,                          // Between audio wave graph and canvas border [px]
         right        : 15,                          // Between audio wave graph and canvas border [px]
         bottom       : 15,                          // Between audio wave graph and canvas border [px]
@@ -1960,25 +1966,25 @@ And, the variable ("domain") is one of 'timeAllL', 'timeAllR', 'time', 'fft'.
     var waveRs = {};
 
     // Getter
-    waveLs[key] = X('audio').module('analyser').domain('timeAllL').param(key);
-    waveRs[key] = X('audio').module('analyser').domain('timeAllR').param(key);
+    waveLs[key] = X('audio').module('analyser').domain('time-overview-L').param(key);
+    waveRs[key] = X('audio').module('analyser').domain('time-overview-R').param(key);
 
     // Setter
-    X('audio').module('analyser').domain('timeAllL').param(key, value);
-    X('audio').module('analyser').domain('timeAllR').param(key, value);
+    X('audio').module('analyser').domain('time-overview-L').param(key, value);
+    X('audio').module('analyser').domain('time-overview-R').param(key, value);
 
-    // Method chain or Associative array ....
+    // Method chain or Associative array ...
   
 In the case of displaying current time according to playing the audio,
   
     var drawCallback = function(currentTime) {
         X('audio').param('currentTime', currentTime);
 
-        // ....
+        // ...
     }
 
-    X('audio').module('analyser').domain('timeAllL').drag(drawCallback);
-    X('audio').module('analyser').domain('timeAllR').drag(drawCallback);
+    X('audio').module('analyser').domain('time-overview-L').drag(drawCallback);
+    X('audio').module('analyser').domain('time-overview-R').drag(drawCallback);
   
 #### Time Domain
   
@@ -1988,7 +1994,12 @@ In the case of displaying current time according to playing the audio,
         wave         : 'rgba(0, 0, 255, 1.0)',      // Wave color
         grid         : 'rgba(255, 0, 0, 1.0)',      // Grid color
         text         : 'rgba(255, 255, 255, 1.0)',  // Text color
-        font         : '13px Arial',                // Text font
+        font         : {
+            family : 'Arial',                       // Text font-family
+            size   : '13px',                        // Text font-size
+            style  : 'normal',                      // Text font-style
+            weight : 'normal'                       // Text font-weight
+        },
         top          : 15,                          // Between audio wave graph and canvas border [px]
         right        : 15,                          // Between audio wave graph and canvas border [px]
         bottom       : 15,                          // Between audio wave graph and canvas border [px]
@@ -2010,7 +2021,7 @@ In the case of displaying current time according to playing the audio,
     // Setter
     X(source).module('analyser').domain('time').param(key, value);
 
-    // Method chain or Associative array ....
+    // Method chain or Associative array ...
   
 #### Frequency Domain (Spectrum)
   
@@ -2020,7 +2031,12 @@ In the case of displaying current time according to playing the audio,
         wave         : 'rgba(0, 0, 255, 1.0)',      // Wave color
         grid         : 'rgba(255, 0, 0, 1.0)',      // Grid color
         text         : 'rgba(255, 255, 255, 1.0)',  // Text color
-        font         : '13px Arial',                // Text font
+        font         : {
+            family : 'Arial',                       // Text font-family
+            size   : '13px',                        // Text font-size
+            style  : 'normal',                      // Text font-style
+            weight : 'normal'                       // Text font-weight
+        },
         top          : 15,                          // Between audio wave graph and canvas border [px]
         right        : 15,                          // Between audio wave graph and canvas border [px]
         bottom       : 15,                          // Between audio wave graph and canvas border [px]
@@ -2043,7 +2059,7 @@ In the case of displaying current time according to playing the audio,
     // Setter
     X(source).module('analyser').domain('fft').param(key, value);
 
-    // Method chain or Associative array ....
+    // Method chain or Associative array ...
   
 ## Recording
   
@@ -2061,7 +2077,7 @@ The following, the variable is one of 'oscillator', 'oneshot', 'audio', 'media',
         // Start (Track 1)
         X(source).module('recorder').ready(0);  // for example, if the number of tracks is 4, the range of this argument is between 0 and 3
 
-        // ....
+        // ...
 
         X(source).start(/* arguments */);
         X(source).module('recorder').start();
@@ -2077,7 +2093,7 @@ In the case of using WebRTC (MediaStreamAudioSourceNode),
         // It is important that recorder starts before streaming
         X('stream').module('recorder').ready(0).start();  // for example, if the number of tracks is 4, the range of this argument is between 0 and 3
 
-        // ....
+        // ...
 
         X('stream').start();
     } else {
@@ -2236,7 +2252,7 @@ But, separator must not be the characters that are used by MML.
     var mml2 = 'T74O2B2O3C+2D1O2B2O3C+2D2E2O2A1E1F+2E2O3DD1EE1&EE1';
 
     // for example, '||' is separator.
-    var mml = mml1 + '||' + mml2;  // for example, Get this string from <input type="text">, <textarea> ... etc
+    var mml = mml1 + '||' + mml2;  // for example, Get this string from <input type="text">, <textarea> ...etc
 
     var mmls = mml.split.split('||');
 
@@ -2300,4 +2316,9 @@ In the case of cloning sound source,
     console.assert(X('stream')     === cloned('stream'));      // Assertion failed
     console.assert(X('mixer')      === cloned('mixer'));       // Assertion failed
     console.assert(X('mml')        === cloned('mml'));         // Assertion failed
+  
+## License
+  
+Copyright (c) 2012, 2013, 2014 Tomohiro IKEDA (Korilakkuma)  
+Released under the MIT license
   
